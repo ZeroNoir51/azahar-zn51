@@ -1132,8 +1132,14 @@
     <string name="update_check_channel_stable">Stable</string>
     <string name="update_check_channel_prerelease">Prerelease</string>
 
-    <string name="primary_viewport_title">Edit primary screen viewport</string>
+    <string name="primary_viewport_title">Edit screen viewports</string>
     <string name="primary_viewport_hint">Drag to move • Drag a corner to resize</string>
+    <!-- Modified 2026-10-27 by ZeroNoir51: dual-display selection and aspect controls. -->
+    <string name="viewport_internal">Internal</string>
+    <string name="viewport_external">External</string>
+    <string name="viewport_ratio_internal">Aspect 4:3</string>
+    <string name="viewport_ratio_external">Aspect 15:9</string>
+    <string name="viewport_external_hint">External display map • Drag to move • Drag a corner to resize</string>
     <string name="primary_viewport_center">Center</string>
     <string name="primary_viewport_reset">Reset</string>
     <string name="primary_viewport_save">Save</string>

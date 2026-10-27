@@ -2,6 +2,8 @@
 // Licensed under GPLv3 or any later version
 // Refer to the LICENSE.txt file included.
 
+// Modified 2026-10-27 by ZeroNoir51: persistent external viewport and editor lifecycle.
+// Fork modifications are licensed under GPLv3 or any later version; see LICENSE.txt.
 package org.citra.citra_emu.display
 
 import android.app.Presentation
@@ -27,6 +29,9 @@ class SecondaryDisplay(val context: Context) : DisplayManager.DisplayListener {
     private val vd: VirtualDisplay
     var preferredDisplayId = -1
     var currentDisplayId = -1
+    internal var onViewportChanged: (() -> Unit)? = null
+    internal val viewport: ViewportTransform?
+        get() = if (currentDisplayId >= 0) pres?.viewport else null
 
     val availableDisplays: List<Display>
         get() = getSecondaryDisplays()
@@ -134,6 +139,7 @@ class SecondaryDisplay(val context: Context) : DisplayManager.DisplayListener {
     }
 
     fun releasePresentation() {
+        onViewportChanged?.invoke()
         try {
             pres?.dismiss()
         } catch (_: Exception) { }
@@ -163,6 +169,8 @@ class SecondaryDisplayPresentation(
 ) : Presentation(context, display) {
     private lateinit var surfaceView: SurfaceView
     private var touchscreenPointerId = -1
+    internal var viewport: ViewportTransform? = null
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -175,6 +183,7 @@ class SecondaryDisplayPresentation(
 
         // Initialize SurfaceView
         surfaceView = SurfaceView(context)
+        viewport = ViewportTransform(surfaceView, "external_viewport_v1")
         surfaceView.holder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
                 Log.debug("SecondaryDisplay Surface created")
@@ -197,6 +206,13 @@ class SecondaryDisplayPresentation(
         })
 
         this.surfaceView.setOnTouchListener { view, event ->
+            if (viewport?.editing == true) {
+                NativeLibrary.onSecondaryTouchEvent(0f, 0f, false)
+                touchscreenPointerId = -1
+                return@setOnTouchListener true
+            }
+            // Android already applies the inverse View transform to these local coordinates.
+            // Do not divide them again when using a nonuniform aspect preset.
             // Deliver the touch events as they arrive instead of batching them to the next
             // frame.
             if (event.actionMasked == MotionEvent.ACTION_DOWN) {
@@ -238,6 +254,16 @@ class SecondaryDisplayPresentation(
         }
 
         setContentView(surfaceView) // Set SurfaceView as content
+        parent.onViewportChanged?.invoke()
+    }
+
+    override fun dismiss() {
+        parent.onViewportChanged?.invoke()
+        viewport?.dispose()
+        viewport = null
+        if (touchscreenPointerId != -1) NativeLibrary.onSecondaryTouchEvent(0f, 0f, false)
+        touchscreenPointerId = -1
+        super.dismiss()
     }
 
     // Publicly accessible method to get the SurfaceHolder

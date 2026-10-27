@@ -6,6 +6,7 @@
 // Integrated the primary viewport editor with the in-game menu and fragment lifecycle.
 // Fork modifications are licensed under GPLv3 or any later version; see LICENSE.txt.
 
+// Modified 2026-10-27 by ZeroNoir51: connect the editor to the external display manager.
 package org.citra.citra_emu.fragments
 
 import android.annotation.SuppressLint
@@ -237,6 +238,7 @@ class EmulationFragment :
         primaryViewportEditor = PrimaryViewportEditor(
             binding.surfaceEmulation, binding.surfaceInputOverlay,
             binding.coordinatorLayout, requireActivity().onBackPressedDispatcher,
+            emulationActivity.secondaryDisplayManager,
         )
         binding.surfaceInputOverlay.primaryTouchMapper = { x, y ->
             primaryViewportEditor?.mapTouch(x, y)

@@ -4,6 +4,22 @@ This is an **unofficial, experimental fork of [Azahar](https://github.com/azahar
 
 This fork is not an official Azahar release and is not affiliated with or endorsed by the Azahar development team. All credit for the original emulator belongs to the Azahar, Citra, and other upstream contributors.
 
+## Patch 2 — Edit both display viewports
+
+Patch 2 extends the editor to both displays, controlled entirely from the Odin touchscreen. During emulation, choose **Edit screen viewports**, then **Internal** or **External**. External editing uses a scaled map on the Odin while the actual external display updates live; it does not require an external touchscreen. The External button is disabled when no active external surface is ready.
+
+- Drag inside the frame to move it, or drag a corner to resize it while keeping its current proportions.
+- **Aspect 4:3** applies the internal preset; **Aspect 15:9** applies the external preset.
+- Applying a preset keeps the current width and center where possible. If the requested height exceeds the display, the frame shrinks to fit; its position is clamped to keep it visible.
+- **Center** and **Reset** affect only the selected display. **Reset** restores the original full-surface proportions.
+- **Save** saves both displays. **Cancel / Android Back** restores both to their placements when the editor opened.
+- Internal and external placements are saved independently, with separate landscape and portrait profiles. Existing internal placements from Patch 01 are retained. External profiles are shared across external monitors, not saved per monitor.
+- A surface size change or external presentation replacement cancels unsaved edits. Reopen the editor after connecting or changing the external display.
+
+These controls transform the **whole rendering surface**, including any letterboxing and all 3DS images in that surface. The preset describes the outer viewport; it does not crop black bars or independently change the native 3DS screen layout. Aspect changes can stretch the rendered image.
+
+**Validation (2026-10-27):** the maintainer compiled and installed the APK on an AYN Odin 3 with an external display and reported successful testing of both viewport editors, the 4:3 / 15:9 presets, persistence across app launches, cancellation, and internal touch alignment. Geometry regression checks (including 40,000 corner resizes) and isolated Kotlin compilation also passed. This validation is specific to that setup; reconnect/rotation edge cases and external touchscreen input remain items in [the device checklist](src/android/viewport-tests/README.md).
+
 ## Patch 01 — Touch-based primary screen viewport editor
 
 The first patch adds an intuitive touch editor for the **internal / primary display viewport**. It lets you set the size and position of the rendered image directly on the device.
@@ -33,22 +49,6 @@ The fork was compiled and tested on an Odin 3 with an external display. The test
 
 This fork also adds missing Android default-configuration declarations for `battery_state_source`, `battery_charging`, and `battery_level`, resolving the startup validation failure encountered in the source revision used for this fork.
 
-## Patch 02 — Dual-display viewport editor (preview)
-
-This preview extends the editor to both displays, controlled entirely from the Odin touchscreen. During emulation, choose **Edit screen viewports**, then **Internal** or **External**. External editing uses a scaled map on the Odin while the actual external display updates live; it does not require an external touchscreen. The External button is disabled when no active external surface is ready.
-
-- Drag inside the frame to move it, or drag a corner to resize it while keeping its current proportions.
-- **Aspect 4:3** applies the internal preset; **Aspect 15:9** applies the external preset.
-- Applying a preset keeps the current width and center where possible. If the requested height exceeds the display, the frame shrinks to fit; its position is clamped to keep it visible.
-- **Center** and **Reset** affect only the selected display. **Reset** restores the original full-surface proportions.
-- **Save** saves both displays. **Cancel / Android Back** restores both to their placements when the editor opened.
-- Internal and external placements are saved independently, with separate landscape and portrait profiles. Existing internal placements from Patch 01 are retained. External profiles are shared across external monitors, not saved per monitor.
-- A surface size change or external presentation replacement cancels unsaved edits. Reopen the editor after connecting or changing the external display.
-
-These controls transform the **whole rendering surface**, including any letterboxing and all 3DS images in that surface. The preset describes the outer viewport; it does not crop black bars or independently change the native 3DS screen layout. Aspect changes can stretch the rendered image.
-
-**Validation status:** geometry regression checks and an isolated Kotlin compilation of the editor/display classes are available; a full APK build and dual-display testing on the Odin 3 are still required for Patch 02. Patch 01's hardware validation above does not cover this preview. See [the validation instructions](src/android/viewport-tests/README.md).
-
 ## AI assistance and experimental-use disclaimer
 
 **The modifications in this fork were developed with assistance from OpenAI GPT-6 Astra.** This disclosure applies to the fork-specific changes and does not imply that the original Azahar or Citra projects were developed using that model.
@@ -59,7 +59,7 @@ AI-assisted code can contain errors. This experimental version is provided **as 
 
 This fork and its modifications are released under the **GNU General Public License, version 3 or (at your option) any later version (GPL-3.0-or-later)**. See [LICENSE.txt](LICENSE.txt) for the full license. Existing copyright notices and third-party license terms remain applicable.
 
-**Modified by ZeroNoir51; fork changes first published on 2026-10-27.** Compared with the upstream revision linked below, this fork adds the touch-based primary display viewport editor, adjusts touchscreen coordinates, saves viewport placements, adds the associated menu and labels, and fixes missing Android battery configuration declarations. On 2026-10-27, the preview was extended with independent external viewport editing and internal/external aspect presets. This README was also adapted for the fork; these notices were added on 2026-10-27.
+**Modified by ZeroNoir51; fork changes first published on 2026-10-27.** Compared with the upstream revision linked below, this fork adds the touch-based primary display viewport editor, adjusts touchscreen coordinates, saves viewport placements, adds the associated menu and labels, and fixes missing Android battery configuration declarations. On 2026-10-27, the editor was extended with independent external viewport editing and internal/external aspect presets. This README was also adapted for the fork; these notices were added on 2026-10-27.
 
 The personal and experimental purpose describes why this fork was created; it does **not** impose any additional restrictions. Anyone may use, study, modify, and redistribute it, including commercially, under the applicable GPL terms.
 

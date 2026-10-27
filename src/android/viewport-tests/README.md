@@ -1,4 +1,6 @@
-# Viewport preview validation
+# Patch 2 viewport validation
+
+On 2026-10-27, the maintainer reported a successful full APK build, installation, and testing on an AYN Odin 3 with an external display: editing both viewports, aspect presets, Save/persistence, Cancel, and internal touch alignment. The remaining checklist below is retained for regression testing; it is not a claim that every edge case or device was tested.
 
 The standalone geometry checks require a Kotlin/JVM compiler (tested with 2.0.20) and Java 17. From the repository root:
 
@@ -21,7 +23,7 @@ Use the existing Android SDK/NDK environment. From `src/android`, run:
 ./gradlew assembleVanillaRelWithDebInfo --max-workers=1
 ```
 
-Do not run `clean` for this incremental preview build. The APK is generated at `app/build/outputs/apk/vanilla/relWithDebInfo/app-vanilla-relWithDebInfo.apk`.
+Do not run `clean` for this incremental build. The APK is generated at `app/build/outputs/apk/vanilla/relWithDebInfo/app-vanilla-relWithDebInfo.apk`.
 
 On the Odin 3, check:
 
@@ -34,4 +36,4 @@ On the Odin 3, check:
 7. With no external display active, confirm External is disabled and internal editing still works.
 8. If an external touchscreen is available, verify local input alignment after resizing and confirm game touches are suppressed during editing.
 
-The viewport includes native letterboxing; the presets do not crop it. Verify visibility and interaction on both portrait and landscape configurations before promoting the preview to the stable branch.
+The viewport includes native letterboxing; the presets do not crop it. Verify visibility and interaction on both portrait and landscape configurations when testing new display configurations.

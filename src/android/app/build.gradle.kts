@@ -77,6 +77,10 @@ android {
         externalNativeBuild {
             cmake {
                 arguments(
+                    // Patch 2 build configuration used on the maintainer\'s low-memory host.
+                    "-DCMAKE_JOB_POOLS=odin_build=1",
+                    "-DCMAKE_JOB_POOL_COMPILE=odin_build",
+                    "-DCMAKE_JOB_POOL_LINK=odin_build",
                     "-DENABLE_QT=0", // Don't use QT
                     "-DENABLE_SDL2=0", // Don't use SDL
                     "-DANDROID_ARM_NEON=true", // cryptopp requires Neon to work

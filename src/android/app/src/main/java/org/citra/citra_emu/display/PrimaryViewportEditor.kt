@@ -1,5 +1,9 @@
 // Copyright 2026 Azahar Emulator Project
 // Licensed under GPLv3 or any later version. Refer to LICENSE.txt.
+
+// Fork modification notice: ZeroNoir51/azahar-zn51, 2026-10-27 (first publication).
+// Added touch-based positioning, resizing, and persistent placement of the primary display viewport.
+// Fork modifications are licensed under GPLv3 or any later version; see LICENSE.txt.
 package org.citra.citra_emu.display
 
 import android.content.Context

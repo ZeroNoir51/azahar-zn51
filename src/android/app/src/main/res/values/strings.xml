@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Fork modification notice: ZeroNoir51/azahar-zn51, 2026-10-27 (first publication).
+    Added labels and instructions for the primary screen viewport editor.
+    Fork modifications are licensed under GPLv3 or any later version; see LICENSE.txt.
+-->
 <resources>
 
     <!-- General application strings -->

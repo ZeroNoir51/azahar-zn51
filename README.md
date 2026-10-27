@@ -1,6 +1,6 @@
 # Azahar — Experimental Android Fork
 
-This is an **unofficial, experimental fork of [Azahar](https://github.com/azahar-emu/azahar)**. It is intended for experimentation, research, and testing of Android interface changes, particularly on handheld devices with an external display.
+This is an **unofficial, experimental fork of [Azahar](https://github.com/azahar-emu/azahar)**. It was created for personal use on my **AYN Odin 3**, particularly with an external display, and is shared openly with anyone who wants to use it.
 
 This fork is not an official Azahar release and is not affiliated with or endorsed by the Azahar development team. All credit for the original emulator belongs to the Azahar, Citra, and other upstream contributors.
 
@@ -37,7 +37,17 @@ This fork also adds missing Android default-configuration declarations for `batt
 
 **The modifications in this fork were developed with assistance from OpenAI GPT-6 Astra.** This disclosure applies to the fork-specific changes and does not imply that the original Azahar or Citra projects were developed using that model.
 
-AI-assisted code can contain errors. This version is provided for experimental and research purposes, **as is, without warranty**, and should be used at your own risk. It is not endorsed, reviewed, or certified by OpenAI. Back up your saves and configuration before testing experimental builds.
+AI-assisted code can contain errors. This experimental version is provided **as is, without warranty**, and should be used at your own risk. It is not endorsed, reviewed, or certified by OpenAI. Back up your saves and configuration before testing experimental builds.
+
+## License and modification notice
+
+This fork and its modifications are released under the **GNU General Public License, version 3 or (at your option) any later version (GPL-3.0-or-later)**. See [LICENSE.txt](LICENSE.txt) for the full license. Existing copyright notices and third-party license terms remain applicable.
+
+**Modified by ZeroNoir51; fork changes first published on 2026-10-27.** Compared with the upstream revision linked below, this fork adds the touch-based primary display viewport editor, adjusts touchscreen coordinates, saves viewport placements, adds the associated menu and labels, and fixes missing Android battery configuration declarations. This README was also adapted for the fork; these notices were added on 2026-10-27.
+
+The personal and experimental purpose describes why this fork was created; it does **not** impose any additional restrictions. Anyone may use, study, modify, and redistribute it, including commercially, under the applicable GPL terms.
+
+The source code for this fork is available in [this repository](https://github.com/ZeroNoir51/azahar-zn51). Any APK release published here will identify its source revision and provide access to the corresponding source code and build scripts.
 
 ## Upstream documentation and licensing
 

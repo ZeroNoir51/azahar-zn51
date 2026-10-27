@@ -2,6 +2,10 @@
 // Licensed under GPLv3 or any later version
 // Refer to the LICENSE.txt file included.
 
+// Fork modification notice: ZeroNoir51/azahar-zn51, 2026-10-27 (first publication).
+// Added missing battery_state_source, battery_charging, and battery_level declarations.
+// Fork modifications are licensed under GPLv3 or any later version; see LICENSE.txt.
+
 #pragma once
 
 #include <boost/hana/string.hpp>

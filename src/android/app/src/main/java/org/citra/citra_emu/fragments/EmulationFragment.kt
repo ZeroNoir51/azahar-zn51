@@ -2,6 +2,10 @@
 // Licensed under GPLv3 or any later version
 // Refer to the LICENSE.txt file included.
 
+// Fork modification notice: ZeroNoir51/azahar-zn51, 2026-10-27 (first publication).
+// Integrated the primary viewport editor with the in-game menu and fragment lifecycle.
+// Fork modifications are licensed under GPLv3 or any later version; see LICENSE.txt.
+
 package org.citra.citra_emu.fragments
 
 import android.annotation.SuppressLint

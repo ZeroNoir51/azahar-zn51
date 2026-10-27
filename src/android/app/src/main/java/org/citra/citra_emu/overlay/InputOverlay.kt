@@ -57,6 +57,9 @@ class InputOverlay(context: Context?, attrs: AttributeSet?) :
     // Stores the ID of the pointer that interacted with the 3DS touchscreen.
     private var touchscreenPointerId = -1
 
+    // Map only 3DS touches; virtual controller buttons retain their full-screen positions.
+    var primaryTouchMapper: ((Float, Float) -> Pair<Float, Float>?)? = null
+
     init {
         if (!preferences.getBoolean("OverlayInit", false)) {
             defaultOverlay()
@@ -117,6 +120,10 @@ class InputOverlay(context: Context?, attrs: AttributeSet?) :
             return onTouchWhileEditing(event)
         }
 
+        if (event.actionMasked == MotionEvent.ACTION_CANCEL && NativeLibrary.isRunning()) {
+            NativeLibrary.onTouchEvent(0f, 0f, false)
+        }
+
         // Deliver the touch events as they arrive instead of batching them to the next
         // frame.
         if (event.actionMasked == MotionEvent.ACTION_DOWN) {
@@ -153,6 +160,13 @@ class InputOverlay(context: Context?, attrs: AttributeSet?) :
                 yPosition += marginsY
             }
 
+            val mapper = primaryTouchMapper
+            val touchPosition = if (mapper != null) {
+                mapper(event.getX(pointerIndex), event.getY(pointerIndex))
+            } else {
+                Pair(xPosition.toFloat(), yPosition.toFloat())
+            }
+
             var hasActiveButtons = false
             for (button in overlayButtons) {
                 if (button.trackId == pointerId) {
@@ -185,7 +199,11 @@ class InputOverlay(context: Context?, attrs: AttributeSet?) :
 
             if (preferences.getBoolean("isTouchEnabled", true) && !hasActiveOverlay) {
                 if (isActionMove) {
-                    NativeLibrary.onTouchMoved(xPosition.toFloat(), yPosition.toFloat())
+                    if (touchPosition != null) {
+                        NativeLibrary.onTouchMoved(touchPosition.first, touchPosition.second)
+                    } else {
+                        NativeLibrary.onTouchEvent(0f, 0f, false)
+                    }
                     continue
                 } else if (isActionUp) {
                     NativeLibrary.onTouchEvent(0f, 0f, false)
@@ -322,7 +340,9 @@ class InputOverlay(context: Context?, attrs: AttributeSet?) :
                 }
 
                 if (!isDpadPressed && !isJoystickPressed) {
-                    NativeLibrary.onTouchEvent(xPosition.toFloat(), yPosition.toFloat(), true)
+                    if (touchPosition != null) {
+                        NativeLibrary.onTouchEvent(touchPosition.first, touchPosition.second, true)
+                    }
                 }
             }
 

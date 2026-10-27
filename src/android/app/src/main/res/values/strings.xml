@@ -1127,4 +1127,9 @@
     <string name="update_check_channel_stable">Stable</string>
     <string name="update_check_channel_prerelease">Prerelease</string>
 
+    <string name="primary_viewport_title">Edit primary screen viewport</string>
+    <string name="primary_viewport_hint">Drag to move • Drag a corner to resize</string>
+    <string name="primary_viewport_center">Center</string>
+    <string name="primary_viewport_reset">Reset</string>
+    <string name="primary_viewport_save">Save</string>
 </resources>

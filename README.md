@@ -1,3 +1,57 @@
+# Azahar — Experimental Android Fork
+
+This is an **unofficial, experimental fork of [Azahar](https://github.com/azahar-emu/azahar)**. It is intended for experimentation, research, and testing of Android interface changes, particularly on handheld devices with an external display.
+
+This fork is not an official Azahar release and is not affiliated with or endorsed by the Azahar development team. All credit for the original emulator belongs to the Azahar, Citra, and other upstream contributors.
+
+## Patch 01 — Touch-based primary screen viewport editor
+
+The first patch adds an intuitive touch editor for the **internal / primary display viewport**. It lets you set the size and position of the rendered image directly on the device.
+
+The initial use case is an **AYN Odin 3 with a Retroid external display**, with the lower 3DS touchscreen shown on the Odin and the upper 3DS screen shown on the external display.
+
+During emulation, open the side menu and select **Edit primary screen viewport**.
+
+- **Move:** drag inside the viewport frame.
+- **Resize:** drag a corner to resize while preserving the aspect ratio.
+- **Center:** center the viewport at its current size.
+- **Reset:** restore the full primary surface.
+- **Save:** keep the selected size and position across subsequent app launches.
+- **Cancel / Android Back:** discard the current edit.
+
+The editor supports sizes from **25% to 100%** of the primary surface and saves separate placements for landscape and portrait orientation. Placements are app-wide rather than per-game.
+
+Touch coordinates are adjusted to stay aligned with the resized image. The external display and on-screen controller buttons retain their existing size and position.
+
+**Scope:** the editor transforms the complete primary rendering surface, including any letterboxing. When a layout shows both 3DS screens on the primary display, both are transformed together. It does not independently rearrange the two images within that layout.
+
+### Validation
+
+The fork was compiled and tested on an Odin 3 with an external display. The tester confirmed that dual-display output, touch alignment, the editor controls, and persistence across app launches work in that setup. This does not establish compatibility with every device, graphics backend, game, or Android version.
+
+### Additional startup fix
+
+This fork also adds missing Android default-configuration declarations for `battery_state_source`, `battery_charging`, and `battery_level`, resolving the startup validation failure encountered in the source revision used for this fork.
+
+## AI assistance and experimental-use disclaimer
+
+**The modifications in this fork were developed with assistance from OpenAI GPT-6 Astra.** This disclosure applies to the fork-specific changes and does not imply that the original Azahar or Citra projects were developed using that model.
+
+AI-assisted code can contain errors. This version is provided for experimental and research purposes, **as is, without warranty**, and should be used at your own risk. It is not endorsed, reviewed, or certified by OpenAI. Back up your saves and configuration before testing experimental builds.
+
+## Upstream documentation and licensing
+
+The original Azahar README is reproduced below from the source revision used for this fork:
+[`1edf59ef592a854ccc2a7405d9aade477b2a0b3d`](https://github.com/azahar-emu/azahar/blob/1edf59ef592a854ccc2a7405d9aade477b2a0b3d/README.md).
+
+**The badges, downloads, installation instructions, contribution guidelines, roadmap, and community links below refer to upstream Azahar. They do not distribute or describe the experimental patches in this fork.** Installing an upstream APK will not install this viewport editor.
+
+The original project licenses, copyright notices, and attribution remain applicable. See the repository's license files and individual source-file headers. This README does not replace or modify those licenses.
+
+---
+
+# Original Azahar README
+
 ![Azahar Emulator](https://azahar-emu.org/resources/images/logo/azahar-name-and-logo.svg)
 
 ![Current Release](https://img.shields.io/github/v/release/azahar-emu/azahar?label=Current%20Release)
@@ -139,3 +193,4 @@ You can find these at https://github.com/azahar-emu/azahar/milestones.
 We have a community Discord server where you can chat about the project, keep up to date with the latest announcements, or coordinate emulator development.
 
 Join at https://discord.gg/4ZjMpAp3M6
+

@@ -26,6 +26,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.Surface
+import org.citra.citra_emu.display.PrimaryViewportEditor
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
@@ -103,6 +104,7 @@ class EmulationFragment :
     private val args by navArgs<EmulationFragmentArgs>()
 
     private lateinit var game: Game
+    private var primaryViewportEditor: PrimaryViewportEditor? = null
     private lateinit var screenAdjustmentUtil: ScreenAdjustmentUtil
 
     private val emulationViewModel: EmulationViewModel by activityViewModels()
@@ -228,6 +230,13 @@ class EmulationFragment :
             return
         }
         binding.surfaceEmulation.holder.addCallback(this)
+        primaryViewportEditor = PrimaryViewportEditor(
+            binding.surfaceEmulation, binding.surfaceInputOverlay,
+            binding.coordinatorLayout, requireActivity().onBackPressedDispatcher,
+        )
+        binding.surfaceInputOverlay.primaryTouchMapper = { x, y ->
+            primaryViewportEditor?.mapTouch(x, y)
+        }
         binding.doneControlConfig.setOnClickListener {
             binding.doneControlConfig.visibility = View.GONE
             binding.surfaceInputOverlay.setIsInEditMode(false)
@@ -354,6 +363,12 @@ class EmulationFragment :
 
                 R.id.menu_secondary_screen_layout -> {
                     showSecondaryScreenLayoutMenu()
+                    true
+                }
+
+                R.id.menu_primary_viewport -> {
+                    binding.drawerLayout.close()
+                    primaryViewportEditor?.show()
                     true
                 }
 
@@ -562,6 +577,9 @@ class EmulationFragment :
     }
 
     override fun onDestroyView() {
+        primaryViewportEditor?.dispose()
+        primaryViewportEditor = null
+        binding.surfaceInputOverlay.primaryTouchMapper = null
         perfStatsUpdater?.let { perfStatsUpdateHandler.removeCallbacks(it) }
         perfStatsUpdater = null
         super.onDestroyView()

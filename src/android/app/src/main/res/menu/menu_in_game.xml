@@ -38,6 +38,11 @@
         android:title="@string/emulation_secondary_display_management" />
 
     <item
+        android:id="@+id/menu_primary_viewport"
+        android:icon="@drawable/ic_fit_screen"
+        android:title="@string/primary_viewport_title" />
+
+    <item
         android:id="@+id/menu_swap_screens"
         android:icon="@drawable/ic_splitscreen"
         android:title="@string/emulation_swap_screens" />

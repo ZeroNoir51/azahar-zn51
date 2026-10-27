@@ -459,6 +459,15 @@ static const char* android_config_default_file_content = (BOOST_HANA_STRING(R"(
 )") DECLARE_KEY(use_virtual_sd) BOOST_HANA_STRING(R"(
 
 [System]
+# Source used for the emulated battery state.
+)") DECLARE_KEY(battery_state_source) BOOST_HANA_STRING(R"(
+
+# Charging state used when the battery source is fixed.
+)") DECLARE_KEY(battery_charging) BOOST_HANA_STRING(R"(
+
+# Battery level used when the battery source is fixed.
+)") DECLARE_KEY(battery_level) BOOST_HANA_STRING(R"(
+
 # The system model that Citra will try to emulate
 # 0: Old 3DS (default), 1: New 3DS
 )") DECLARE_KEY(is_new_3ds) BOOST_HANA_STRING(R"(
